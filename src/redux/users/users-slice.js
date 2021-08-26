@@ -2,9 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import userOperations from "./users-operations";
 
 const initialState = {
-  user: { name: null, email: null, passwor: null },
+  user: { name: null, email: null, password: null },
   token: null,
   isLoggedIn: false,
+  isFetchingCurrentUser: false,
 };
 
 const userSlice = createSlice({
@@ -26,12 +27,16 @@ const userSlice = createSlice({
       state.token = null;
       state.isLoggedIn = false;
     },
-    [userOperations.fetchCurrentUser.fulfilled](
-      { user, isLoggedIn },
-      { payload }
-    ) {
-      user = payload;
-      isLoggedIn = true;
+    [userOperations.fetchCurrentUser.pending](state) {
+      state.isFetchingCurrentUser = true;
+    },
+    [userOperations.fetchCurrentUser.fulfilled](state, action) {
+      state.user = action.payload;
+      state.isLoggedIn = true;
+      state.isFetchingCurrentUser = false;
+    },
+    [userOperations.fetchCurrentUser.rejected](state) {
+      state.isFetchingCurrentUser = false;
     },
   },
 });
