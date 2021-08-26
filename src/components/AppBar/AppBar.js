@@ -1,12 +1,12 @@
 import { useSelector } from "react-redux";
-import Navigation from "./Navigation";
-import UserMenu from "./UserMenu/UserMenu";
-import UserNav from "./UserNav";
+import Navigation from "../Navigation/Navigation";
+import UserMenu from "../UserMenu/UserMenu";
+import UserNav from "../UserNav";
+import { userSelectors } from "../../redux/users";
 import s from "./AppBar.module.scss";
 
 const AppBar = () => {
-  const isLoggedIn = useSelector((state) => state.users.isLoggedIn);
-  console.log(isLoggedIn);
+  const isLoggedIn = useSelector(userSelectors.getIsLoggedIn);
 
   return (
     <header className={s.header}>
