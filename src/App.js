@@ -1,16 +1,22 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { Switch, Route } from "react-router-dom";
+import { useEffect, Suspense, lazy } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Switch } from "react-router-dom";
 import Container from "./components/Container/Container";
-import HomeView from "./views/HomeView";
-import LoginView from "./views/LoginView";
-import RegisterView from "./views/RegisterView";
-import ContactsView from "./views/ContactsView";
-import AppBar from "./components/AppBar";
+import AppBar from "./components/AppBar/AppBar";
 import PrivateRoute from "./components/PrivateRoute";
+import PublicRoute from "./components/PublicRoute";
+import Loader from "./components/Loader/Loader";
 import { userOperations } from "./redux/users";
 
-function App() {
+const HomeView = lazy(() => import("./views/HomeView"));
+const LoginView = lazy(() => import("./views/LoginView"));
+const RegisterView = lazy(() => import("./views/RegisterView"));
+const ContactsView = lazy(() => import("./views/ContactsView"));
+
+const App = () => {
+  const isFetchingCurrentUser = useSelector(
+    (state) => state.users.isFetchingCurrentUser
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,27 +24,28 @@ function App() {
   }, [dispatch]);
 
   return (
-    <Container>
-      <AppBar />
-      <Switch>
-        <Route exact path="/">
-          <HomeView />
-        </Route>
-        <Route path="/register">
-          <RegisterView />
-        </Route>
-        <Route path="/login">
-          <LoginView />
-        </Route>
-        {/* <Route path="/contacts">
-          <ContactsView />
-        </Route> */}
-        <PrivateRoute path="/contacts">
-          <ContactsView />
-        </PrivateRoute>
-      </Switch>
-    </Container>
+    !isFetchingCurrentUser && (
+      <Container>
+        <AppBar />
+        <Switch>
+          <Suspense fallback={<Loader />}>
+            <PublicRoute exact path="/">
+              <HomeView />
+            </PublicRoute>
+            <PublicRoute path="/register" restricted>
+              <RegisterView />
+            </PublicRoute>
+            <PublicRoute path="/login" redirectTo="/contacts" restricted>
+              <LoginView />
+            </PublicRoute>
+            <PrivateRoute path="/contacts" redirectTo="/login">
+              <ContactsView />
+            </PrivateRoute>
+          </Suspense>
+        </Switch>
+      </Container>
+    )
   );
-}
+};
 
 export default App;
