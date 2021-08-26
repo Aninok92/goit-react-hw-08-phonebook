@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import s from "./Navigation.module.scss";
+import s from "./Navigation/Navigation.module.scss";
 
 const UserNav = () => (
   <div>

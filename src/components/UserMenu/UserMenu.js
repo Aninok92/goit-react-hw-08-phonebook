@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { userOperations } from "../../redux/users";
+import { userSelectors } from "../../redux/users";
 import s from "./UserMenu.module.scss";
 
 const UserMenu = () => {
   const dispatch = useDispatch();
-  const name = useSelector((state) => state.users.user.name);
+  const name = useSelector(userSelectors.getUsername);
   return (
     <div className={s.wrapper}>
       <p className={s.text}>
