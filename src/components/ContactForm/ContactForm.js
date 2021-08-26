@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { nanoid } from "nanoid";
 import contactsOperations from "../../redux/contacts/contacts-operations";
 import { useSelector, useDispatch } from "react-redux";
 import { getContacts } from "../../redux/contacts/contacts-selectors";
+import Button from "../Button/Button";
 import s from "./ContactForm.module.scss";
 
-function ContactForm() {
+const ContactForm = ({ onSave }) => {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
+  const [bgColour, setBgColour] = useState("#2196f3");
 
   const contacts = useSelector(getContacts);
   const dispatch = useDispatch();
@@ -45,6 +47,7 @@ function ContactForm() {
     }
 
     dispatch(contactsOperations.addContacts({ name, number }));
+    onSave();
     reset();
   };
 
@@ -88,12 +91,18 @@ function ContactForm() {
           id={numberInputId}
         />
       </label>
-      <button type="submit" className={s.button} disabled={!name || !number}>
-        Add Contact
-      </button>
+      <Button
+        style={{ backgroundColor: `${bgColour}` }}
+        type={"submit"}
+        onMouseEnter={() => setBgColour("#008b8b")}
+        onMouseLeave={() => setBgColour("#2196f3")}
+        disabled={!name || !number}
+      >
+        Save Contact
+      </Button>
     </form>
   );
-}
+};
 
 ContactForm.propTypes = {
   contacts: PropTypes.arrayOf(

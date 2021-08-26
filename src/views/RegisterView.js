@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { userOperations } from "../redux/users";
+import Button from "../components/Button/Button";
 import s from "../components/ContactForm/ContactForm.module.scss";
 
 const RegisterView = () => {
-  const dispatch = useDispatch();
+  const [bgColour, setBgColour] = useState("#2196f3");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,7 +52,7 @@ const RegisterView = () => {
             onChange={handleChange}
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
-            required
+            // required
             // id={nameInputId}
           />
         </label>
@@ -85,14 +88,15 @@ const RegisterView = () => {
             // id={numberInputId}
           />
         </label>
-
-        <button
-          type="submit"
-          className={s.button}
+        <Button
+          style={{ backgroundColor: `${bgColour}` }}
+          type={"submit"}
+          onMouseEnter={() => setBgColour("#008b8b")}
+          onMouseLeave={() => setBgColour("#2196f3")}
           disabled={!name || !email || !password}
         >
           Sign up
-        </button>
+        </Button>
       </form>
     </div>
   );

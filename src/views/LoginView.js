@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { userOperations } from "../redux/users";
+import Button from "../components/Button/Button";
 import s from "../components/ContactForm/ContactForm.module.scss";
 
 const LoginView = () => {
-  const dispatch = useDispatch();
+  const [bgColour, setBgColour] = useState("#2196f3");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,14 +67,15 @@ const LoginView = () => {
             // id={numberInputId}
           />
         </label>
-
-        <button
-          type="submit"
-          className={s.button}
+        <Button
+          style={{ backgroundColor: `${bgColour}` }}
+          type={"submit"}
+          onMouseEnter={() => setBgColour("#008b8b")}
+          onMouseLeave={() => setBgColour("#2196f3")}
           disabled={!email || !password}
         >
           Login
-        </button>
+        </Button>
       </form>
     </div>
   );
