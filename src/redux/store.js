@@ -24,7 +24,6 @@ import {
 import storage from "redux-persist/lib/storage";
 import logger from "redux-logger";
 import contactsReducer from "./contacts/contacts-reducer";
-import { setupListeners } from "@reduxjs/toolkit/query";
 import { userReducer } from "./users";
 
 const middleware = [
@@ -37,7 +36,7 @@ const middleware = [
 ];
 
 const userPersistConfig = {
-  key: "users",
+  key: "user",
   storage,
   whitelist: ["token"],
 };
@@ -53,6 +52,6 @@ const store = configureStore({
 
 const persistor = persistStore(store);
 
-setupListeners(store.dispatch);
+//setupListeners(store.dispatch);
 
 export default { store, persistor };
