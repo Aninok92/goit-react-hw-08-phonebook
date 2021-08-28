@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-hot-toast";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 axios.defaults.baseURL = "https://connections-api.herokuapp.com";
@@ -12,32 +13,41 @@ const token = {
   },
 };
 
-const register = createAsyncThunk("user/register", async (credentials) => {
-  try {
-    const { data } = await axios.post("/users/signup", credentials);
-    token.set(data.token);
-    return data;
-  } catch (error) {
-    console.log(error);
+const register = createAsyncThunk(
+  "user/register",
+  async (credentials, thunkAPI) => {
+    try {
+      const { data } = await axios.post("/users/signup", credentials);
+      token.set(data.token);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        toast.error(`Register error ${error.message}`)
+      );
+    }
   }
-});
+);
 
-const logIn = createAsyncThunk("user/login", async (credentials) => {
+const logIn = createAsyncThunk("user/login", async (credentials, thunkAPI) => {
   try {
     const { data } = await axios.post("/users/login", credentials);
     token.set(data.token);
     return data;
   } catch (error) {
-    console.log(error);
+    return thunkAPI.rejectWithValue(
+      toast.error(`Login error ${error.message}`)
+    );
   }
 });
 
-const logOut = createAsyncThunk("user/logout", async () => {
+const logOut = createAsyncThunk("user/logout", async (_, thunkAPI) => {
   try {
     await axios.post("/users/logout");
     token.unset();
   } catch (error) {
-    console.log(error);
+    return thunkAPI.rejectWithValue(
+      toast.error(`Log out error ${error.message}`)
+    );
   }
 });
 
@@ -58,6 +68,7 @@ const fetchCurrentUser = createAsyncThunk(
       return data;
     } catch (error) {
       console.log(error);
+      return error.response;
     }
   }
 );

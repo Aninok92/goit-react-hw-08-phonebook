@@ -1,6 +1,7 @@
 import { useEffect, Suspense, lazy } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Switch } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import Container from "./components/Container/Container";
 import AppBar from "./components/AppBar/AppBar";
 import PrivateRoute from "./components/PrivateRoute";
@@ -8,7 +9,7 @@ import PublicRoute from "./components/PublicRoute";
 import Loader from "./components/Loader/Loader";
 import { userOperations } from "./redux/users";
 
-const HomeView = lazy(() => import("./views/HomeView"));
+const HomeView = lazy(() => import("./views/HomeView/HomeView"));
 const LoginView = lazy(() => import("./views/LoginView"));
 const RegisterView = lazy(() => import("./views/RegisterView"));
 const ContactsView = lazy(() => import("./views/ContactsView"));
@@ -43,6 +44,7 @@ const App = () => {
             </PrivateRoute>
           </Suspense>
         </Switch>
+        <Toaster position="top-center" />
       </Container>
     )
   );
