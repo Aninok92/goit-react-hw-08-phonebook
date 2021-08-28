@@ -1,0 +1,32 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+.wrapper h1 {
+  font-size: 100px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5em;
+  padding-bottom: 15px;
+  position: relative;
+}
+.wrapper h1:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 5px;
+  width: 155px;
+  background-color: rgb(235, 68, 68);
+}
+.wrapper h1:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 2px;
+  height: 1px;
+  width: 95%;
+  max-width: 755px;
+  background-color: rgb(235, 68, 68);
+}
