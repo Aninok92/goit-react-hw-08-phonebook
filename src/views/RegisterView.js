@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { userOperations } from "../redux/users";
+import { nanoid } from "nanoid";
 import Button from "../components/Button/Button";
-import s from "../components/ContactForm/ContactForm.module.scss";
+import s from "./LoginView.module.scss";
 
 const RegisterView = () => {
   const [bgColour, setBgColour] = useState("#2196f3");
@@ -36,10 +37,13 @@ const RegisterView = () => {
     setEmail("");
     setPassword("");
   };
+  const nameInputId = nanoid();
+  const emailInputId = nanoid();
+  const passwordInputId = nanoid();
 
   return (
-    <div>
-      <h2>Create Account</h2>
+    <div className={s.formPage}>
+      <h2 className={s.title}>Create Account</h2>
       <form className={s.form} onSubmit={handleSubmit} autoComplete="off">
         <label className={s.label}>
           <span className={s.labelText}>Name</span>
@@ -52,8 +56,7 @@ const RegisterView = () => {
             onChange={handleChange}
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
-            // required
-            // id={nameInputId}
+            id={nameInputId}
           />
         </label>
 
@@ -66,10 +69,7 @@ const RegisterView = () => {
             value={email}
             placeholder="qwerty@gmail.com"
             onChange={handleChange}
-            // pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            // title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
-            // required
-            // id={numberInputId}
+            id={emailInputId}
           />
         </label>
 
@@ -82,10 +82,7 @@ const RegisterView = () => {
             value={password}
             placeholder="*******"
             onChange={handleChange}
-            // pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            // title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
-            // required
-            // id={numberInputId}
+            id={passwordInputId}
           />
         </label>
         <Button

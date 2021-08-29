@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { userOperations } from "../redux/users";
+import { nanoid } from "nanoid";
 import Button from "../components/Button/Button";
-import s from "../components/ContactForm/ContactForm.module.scss";
+import s from "./LoginView.module.scss";
 
 const LoginView = () => {
   const [bgColour, setBgColour] = useState("#2196f3");
@@ -32,10 +33,13 @@ const LoginView = () => {
     setPassword("");
   };
 
+  const emailInputId = nanoid();
+  const passwordInputId = nanoid();
+
   return (
-    <div>
-      <h2>Welcome Back</h2>
-      <form className={s.form} onSubmit={handleSubmit} autoComplete="off">
+    <div className={s.formPage}>
+      <h2 className={s.title}>Welcome Back</h2>
+      <form className={s.form} onSubmit={handleSubmit}>
         <label className={s.label}>
           <span className={s.labelText}>Mail</span>
           <input
@@ -45,10 +49,8 @@ const LoginView = () => {
             value={email}
             placeholder="qwerty@gmail.com"
             onChange={handleChange}
-            // pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            // title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
-            // required
-            // id={numberInputId}
+            autoComplete="off"
+            id={emailInputId}
           />
         </label>
 
@@ -61,10 +63,8 @@ const LoginView = () => {
             value={password}
             placeholder="*******"
             onChange={handleChange}
-            // pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            // title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
-            // required
-            // id={numberInputId}
+            autoComplete="off"
+            id={passwordInputId}
           />
         </label>
         <Button
